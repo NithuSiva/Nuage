@@ -1,0 +1,136 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap');
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+html, body {
+    margin: 0;
+    height: 100%;
+    background-color: #FAE2C0;
+}
+
+form {
+    width: 100%;
+}   
+
+.div_boutton_analyse {
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.button_recherche {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    margin-left: 10px;
+}
+
+.label_title {
+    display: block;
+    font-family: 'Dosis', sans-serif;
+    font-size: 5em;
+}
+  
+.input_recherche, .label_title {
+    margin: 0.4rem 0;
+}
+
+.input_recherche{
+    width: 100%;
+    height: 70px;
+    border-radius: 24px;    
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 1em;
+    padding: 15px;
+    border: none;
+}
+
+.input_api_key {
+    margin-right: 15px;
+}
+
+.div_api_input {
+    display: none;
+}
+
+button {
+    height: 70px;
+}
+
+.div_principale {
+    margin: auto;
+    width: 60%;
+}
+
+.div_recherche_input {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.div_input_button {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.div_container_videos {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+.img_video_miniature {
+    border-radius: 14px;
+    transform: scale(0.9);
+}
+
+.div_video {
+    display:flex;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+}
+
+.div_video_title {
+    margin: 0;
+    margin-left: 10px;
+    font-family: 'Comfortaa', sans-serif;
+    display: flex;
+    align-items: center;
+
+}
+
+.div_comment {
+    padding: 10px;
+}
+
+.div_comment_miniature {
+    display: flex;
+    align-items: center;
+}
+
+.img_pdp {
+    border-radius: 20px;
+}
+
+.p_author_name {
+    margin-left: 10px;
+    font-size: 2em;
+    font-size: 2em;
+    margin: 0;
+    margin-left: 10px;
+    font-family: 'Dosis', sans-serif;
+
+}

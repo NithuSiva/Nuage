@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recherche</title>
+  <link rel="stylesheet" href="../../styles.css"> 
+  <link 
+  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
+  rel="stylesheet"  type='text/css'>
+</head>
+
+<body>
+  <div id="div_principale" class="div_principale">
+    <div class="div_recherche_input">
+      <form #form_recherche="ngForm" (ngSubmit)="search_channel(form_recherche)">
+        <label class="label_title" for="input_recherche">Recherche</label>
+        <div class="div_input_button">
+          <input type="search" id="input_recherche" placeholder="BFMTV" class="input_recherche" name="input_recherche" ngModel="UCXwDLMDV86ldKoFVc_g8P0g"/>
+          <div class="search-container">
+            <button class="button_recherche"><i class="bi bi-search fa-4x"></i></button>
+          </div>
+        </div> 
+        
+        <div class="div_api_input">
+          <label class="input_api_key" for="input_api_key">Clé API</label>
+          <input type="text" name="api_key" id="api_key" required ngModel="AIzaSyBFaO-O9HkIAG2ipl1P_yS9GRYox2Zp6NU"/>
+
+        </div>
+      </form>
+      <!-- <app-interface-recherche></app-interface-recherche> -->
+    </div>
+  </div>
+</body>
+</html>
+<!-- https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyBFaO-O9HkIAG2ipl1P_yS9GRYox2Zp6NU&textFormat=plainText&part=snippet&videoId=d8aSDHvXMwo&maxResults=5 -->
+<!-- https://youtube.googleapis.com/youtube/v3/search?channelId=UCXwDLMDV86ldKoFVc_g8P0g&key=AIzaSyBFaO-O9HkIAG2ipl1P_yS9GRYox2Zp6NU&part=snippet,id&order=date&maxResults=5 -->
