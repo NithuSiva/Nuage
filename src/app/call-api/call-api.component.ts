@@ -22,7 +22,6 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ApiDataService } from '../services/api-data.service';
 
-
 @Component({
   selector: 'app-call-api',
   standalone: true,
@@ -43,7 +42,7 @@ export class CallApiComponent implements OnInit {
   private key = "";
   private data: any;
   http: any;
-
+  
   constructor(private _httpClient: HttpClient, private apiDataService: ApiDataService, private router: Router) {
   }
 
@@ -54,62 +53,97 @@ export class CallApiComponent implements OnInit {
   commentsPage() {
     this.router.navigate(['/comments']);
   }
-
-  showData() {
-  }
   
-  /* newPage() {
-    this.apiDataService.postData(this.data).subscribe(
-      (response) => {
-        console.log("Reponse du serveur : ", response);
-      },
-      (error) => {
-        console.log("Erreur lors de l'envoie de données", error);
-      }
-    );
-  } */
-
   getCommentId(videoId: string) {
     this.callCommentUrl(videoId, this.key, 50);
-
   }
 
   search_channel(form_recherche: any) {
     this.channel_name = form_recherche.form.value.input_recherche;
     this.key = form_recherche.form.value.api_key;
-    // form_recherche.
-    this.callChannelUrl(this.channel_name, this.key, 10);
+    // this.callChannelUrl(this.channel_name, this.key, 10);
+    this.callChannelUrl2();
   }
   
-  callChannelUrl(channel_name: string, key: string, nb_videos: number) {
+  callChannelUrl(channel_id: any, nb_videos: number) {
     
-    this.url = "https://youtube.googleapis.com/youtube/v3/search?&key=" + key + "&channelId=" + channel_name + "&part=snippet,id&maxResults=" + nb_videos
-    console.log(this.url);
-    this._httpClient.get(this.url)
-    .subscribe(data => {
-      this.data = (<any>data).items;
-      this.createGrid();
+    // let url = "https://youtube.googleapis.com/youtube/v3/search?&key=" + this.key + "&channelId=" + channel_id + "&part=snippet,id&order=viewCoun&maxResults=" + nb_videos + "&type=video";
+    let url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channel_id + "&order=viewCount&maxResults=" + nb_videos + "&type=video&key=" + this.key
+    console.log(url);
+    this._httpClient.get(url)
+    .subscribe(dataHttp => {
+      this.data = (<any>dataHttp).items;
+      this.createGridVideos();
       
-  });
-    
+    });
+
+  }
+
+  callChannelUrl2() {
+    let url = "https://www.googleapis.com/youtube/v3/search?part=id&q=" + this.channel_name + "&type=channel&key=" + this.key;
+    console.log(url);
+    console.log(this.channel_name);
+    this._httpClient.get(url)
+    .subscribe(dataHttp => {
+      this.data = (<any>dataHttp).items;
+      this.callChannelAccount(this.data);
+    });
+  }
+
+  callChannelAccount(list_channel: any){
+
+    let div_principale = document.getElementById("div_principale");
+    let old_div_container_videos = document.getElementById('div_container_channels')
+    if(old_div_container_videos && div_principale){
+      div_principale.removeChild(old_div_container_videos);
+    }
+
+    let div_container_channels = document.createElement('div');
+    div_container_channels.setAttribute('id',"div_container_channels");
+    div_container_channels.classList.add("div_container_channels");
+
+    list_channel.forEach((element:any) => {
+      console.log("Chaine :", element.id.channelId);
+      let url = "https://www.googleapis.com/youtube/v3/channels?part=snippet,contentDetails,statistics&id=" + element.id.channelId + "&key=" + this.key;
+      this._httpClient.get(url)
+      .subscribe(dataHttp => {
+        let channel = (<any>dataHttp).items;
+        console.log();
+
+        let div_channels_miniature = document.createElement("div");
+        div_channels_miniature.classList.add("div_channels_miniature");
+
+        let button_image : HTMLButtonElement=<HTMLButtonElement>document.createElement("button");
+        button_image.classList.add("button_image");
+        // button_image.addEventListener('click',  this.callChannelUrl(element.id.channelId, 10))
+        button_image.addEventListener('click', (e:Event) => this.callChannelUrl(element.id.channelId, 10));
+        let image = document.createElement("img");
+        image.src = channel[0].snippet.thumbnails.high.url;
+        image.classList.add("img_channel_miniature");
+
+        button_image.appendChild(image);
+        div_channels_miniature.appendChild(button_image);
+        div_container_channels.appendChild(div_channels_miniature);
+        if(div_principale){
+          div_principale.appendChild(div_container_channels);
+        }
+      });
+    });
   }
 
   callCommentUrl(videoId: string, key: string, nb_comments: number) {
-    this.url = "https://www.googleapis.com/youtube/v3/commentThreads?key=" + key + "&textFormat=plainText&part=snippet&videoId=" + videoId + "&maxResults=" + nb_comments;
+    this.url = "https://www.googleapis.com/youtube/v3/commentThreads?key=" + key + "&textFormat=plainText&part=snippet&order=relevance&videoId=" + videoId + "&maxResults=" + nb_comments;
     this._httpClient.get(this.url)
     .subscribe(data => {
       this.data = (<any>data).items;
-
       this.apiDataService.setUrl(this.url);
       this.apiDataService.setData(this.data);
-        
-
       this.router.navigate(['/comments']);
   });
     
   }
 
-  createGrid() {
+  createGridVideos() {
     let div_principale = document.getElementById("div_principale");
     let old_div_container_videos = document.getElementById('div_container_videos')
     if(old_div_container_videos && div_principale){
@@ -152,4 +186,6 @@ export class CallApiComponent implements OnInit {
       div_principale.appendChild(div_container_videos);
     }
   }
+
+
 }
