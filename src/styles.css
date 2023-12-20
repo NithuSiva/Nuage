@@ -1,12 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bentham&display=swap');
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
 html, body {
     margin: 0;
     height: 100%;
-    background-color: #FAE2C0;
+    background-color: #1d2127;
+    font-family: Comfortaa;
+    color: rgba(255, 255, 255, 0.92);
 }
 
 form {
@@ -18,28 +22,39 @@ form {
     margin-right: 5px;
 }
 
+.h3_titre, .p_presentation {
+    font-family: 'Bentham', serif;
+    font-size: 2.5rem;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
 .nav_app {
     width: 100%;
-    background-color: #d0ab5c;
+    background-color: #17181B;
     height: 70px;
     display: flex;
     justify-content: start;
     align-items: center;
+    border-bottom:#282A2D 2px solid;
 }
 
 .nav_app h3 {
     font-size: 2em;
-    color: wheat;
     margin-right: 30px;
     margin-left: 30px;
 }
 
 .nav_app a {
     font-size: 2em;
-    color: wheat;
     text-decoration: none;
+    color: rgba(255, 255, 255, 0.92);
+    padding: 0.5em;
 }
-.nav_app li {
+
+.nav_app a:hover {
+    background-color: rgba(232, 234, 237, 0.12);
+    border-radius: 0.5rem;
 }
 
 .button_recherche {
@@ -54,22 +69,51 @@ form {
 
 .label_title {
     display: block;
-    font-family: 'Dosis', sans-serif;
-    font-size: 5em;
+    font-size: 3em;
 }
   
 .input_recherche, .label_title {
     margin: 0.4rem 0;
 }
 
+
+.input_recherche, .select_order, .select_nb{
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 1em;
+    padding: 15px;
+    border: #282A2D 2px solid;
+    background: #17181B;
+}
 .input_recherche{
     width: 100%;
     height: 70px;
     border-radius: 24px;    
-    font-family: 'Comfortaa', sans-serif;
-    font-size: 1em;
-    padding: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
     border: none;
+}
+
+.select_order{
+    width: 30%;
+    height: 70px;
+    font-family: 'Comfortaa', sans-serif;
+    border: none;
+    border-right: black 1px solid;
+    border-left: black 1px solid;
+}
+
+.select_nb{
+    width: 10%;
+    height: 70px;
+    border-radius: 24px;    
+    font-family: 'Comfortaa', sans-serif;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border: none;
+}
+
+.icon{
+    color: rgba(255, 255, 255, 0.92);
 }
 
 .input_api_key {
@@ -123,8 +167,11 @@ button {
 .div_video {
     display:flex;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
+    border-radius: 0.75rem;
+    border: #282A2D 2px solid;
+    padding: 2em;
+    background: #17181B;
+    margin-bottom: 10px;
 }
 
 .div_video_title {
@@ -188,6 +235,7 @@ button {
 .div_nuage {
     margin: auto;
     width: 60%;
+    margin-top: 50px;
 }
 
 ul {
@@ -195,13 +243,20 @@ ul {
     padding-left: 0;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    align-items: baseline;
     line-height: 2.5rem;
+    justify-content: center;
+}
+
+.ul_nuage {
+    width: 100%;
+    background-color: #17181B;
+    border: #282A2D 2px solid;
+    padding: 50px;
+    border-radius: 30px;
 }
 
 ul a {
-    color: #a33;
     display: block;
     font-size: 1.5rem;
     padding: 0.125rem 0.25rem;

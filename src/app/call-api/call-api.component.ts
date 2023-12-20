@@ -41,6 +41,8 @@ export class CallApiComponent implements OnInit {
   private channel_name = "";
   private key = "";
   private data: any;
+  private order: any;
+  private nb_videos: any;
   http: any;
   
   constructor(private _httpClient: HttpClient, private apiDataService: ApiDataService, private router: Router) {
@@ -48,6 +50,8 @@ export class CallApiComponent implements OnInit {
 
   ngOnInit() {
     console.log("Allumé CallApiComponent");
+    let div_presenation = document.getElementById('div_presentation');
+    div_presenation?.remove();
   }
 
   commentsPage() {
@@ -59,22 +63,37 @@ export class CallApiComponent implements OnInit {
   }
 
   search_channel(form_recherche: any) {
+    console.log("APPUYER");
     this.channel_name = form_recherche.form.value.input_recherche;
     this.key = form_recherche.form.value.api_key;
-    // this.callChannelUrl(this.channel_name, this.key, 10);
+    this.order = form_recherche.form.value.select_order;
+    this.nb_videos = Number(form_recherche.form.value.select_nb);
+
+    type OrderOptions = {
+      [key: string]: string;
+    };
+    
+    let options: OrderOptions = {
+      "Popularité": 'videoCount',
+      "Récent": 'date',
+      "Poce Blo": 'rating',
+      "Titre ordre alphabetique": 'title',
+      "Pertinence": 'relevance'
+    };
+    
+    let key: keyof OrderOptions =  this.order;
+    this.order = options[key];
     this.callChannelUrl2();
   }
   
-  callChannelUrl(channel_id: any, nb_videos: number) {
-    
-    // let url = "https://youtube.googleapis.com/youtube/v3/search?&key=" + this.key + "&channelId=" + channel_id + "&part=snippet,id&order=viewCoun&maxResults=" + nb_videos + "&type=video";
-    let url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channel_id + "&order=viewCount&maxResults=" + nb_videos + "&type=video&key=" + this.key
+  callChannelUrl(channel_id: any) {
+    let url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channel_id + "&order=" + this.order + "&maxResults=" + this.nb_videos  + "&type=video&key=" + this.key
     console.log(url);
     this._httpClient.get(url)
     .subscribe(dataHttp => {
       this.data = (<any>dataHttp).items;
+      console.log("LISTE VIDEOS : ", this.data);
       this.createGridVideos();
-      
     });
 
   }
@@ -86,6 +105,7 @@ export class CallApiComponent implements OnInit {
     this._httpClient.get(url)
     .subscribe(dataHttp => {
       this.data = (<any>dataHttp).items;
+      console.log("LISTE CHAINE : ", this.data);
       this.callChannelAccount(this.data);
     });
   }
@@ -93,7 +113,12 @@ export class CallApiComponent implements OnInit {
   callChannelAccount(list_channel: any){
 
     let div_principale = document.getElementById("div_principale");
-    let old_div_container_videos = document.getElementById('div_container_channels')
+    let old_div_container_channels = document.getElementById('div_container_channels')
+    if(old_div_container_channels && div_principale){
+      div_principale.removeChild(old_div_container_channels);
+    }
+
+    let old_div_container_videos = document.getElementById('div_container_videos')
     if(old_div_container_videos && div_principale){
       div_principale.removeChild(old_div_container_videos);
     }
@@ -116,7 +141,7 @@ export class CallApiComponent implements OnInit {
         let button_image : HTMLButtonElement=<HTMLButtonElement>document.createElement("button");
         button_image.classList.add("button_image");
         // button_image.addEventListener('click',  this.callChannelUrl(element.id.channelId, 10))
-        button_image.addEventListener('click', (e:Event) => this.callChannelUrl(element.id.channelId, 10));
+        button_image.addEventListener('click', (e:Event) => this.callChannelUrl(element.id.channelId));
         let image = document.createElement("img");
         image.src = channel[0].snippet.thumbnails.high.url;
         image.classList.add("img_channel_miniature");
@@ -186,6 +211,4 @@ export class CallApiComponent implements OnInit {
       div_principale.appendChild(div_container_videos);
     }
   }
-
-
 }

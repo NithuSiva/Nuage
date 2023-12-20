@@ -12,17 +12,32 @@
   <div id="div_principale" class="div_principale">
     <div class="div_recherche_input">
       <form #form_recherche="ngForm" (ngSubmit)="search_channel(form_recherche)">
-        <label class="label_title" for="input_recherche">Recherche</label>
+        <label class="label_title" for="input_recherche">Rechercher une chaîne youtube</label>
         <div class="div_input_button">
           <input type="search" id="input_recherche" placeholder="BFMTV" class="input_recherche" name="input_recherche" ngModel="BFMTV"/>
+          <select id="select_order" name="select_order" class="select_order" placeholder="Popularité" ngModel="Popularité">
+            <option selected>Popularité</option>
+            <option>Pertinence</option>
+            <option>Récent</option>
+            <option>Poce Blo</option>
+            <option>Titre ordre alphabetique</option>
+            <option>Nombre de vues</option>
+          </select>
+          <select id="select_nb" name="select_nb" class="select_nb" placeholder="10" ngModel="10">
+            <option selected>10</option>
+            <option>20</option>
+            <option>30</option>
+            <option>40</option>
+            <option>50</option>
+          </select>
           <div class="search-container">
-            <button class="button_recherche"><i class="bi bi-search fa-4x"></i></button>
+            <button class="button_recherche"><i class="bi bi-search fa-4x icon"></i></button>
           </div>
         </div> 
         
         <div class="div_api_input">
           <label class="input_api_key" for="input_api_key">Clé API</label>
-          <input type="text" name="api_key" id="api_key" required ngModel="AIzaSyBFaO-O9HkIAG2ipl1P_yS9GRYox2Zp6NU"/>
+          <input type="text" name="api_key" id="api_key" required ngModel="AIzaSyBjaPIcBTxjjvxyPV6nTM5y69qZ2wAImD0"/>
 
         </div>
       </form>
