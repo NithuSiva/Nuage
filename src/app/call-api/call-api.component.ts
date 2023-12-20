@@ -50,8 +50,6 @@ export class CallApiComponent implements OnInit {
 
   ngOnInit() {
     console.log("Allumé CallApiComponent");
-    let div_presenation = document.getElementById('div_presentation');
-    div_presenation?.remove();
   }
 
   commentsPage() {
@@ -59,11 +57,11 @@ export class CallApiComponent implements OnInit {
   }
   
   getCommentId(videoId: string) {
-    this.callCommentUrl(videoId, this.key, 50);
+    this.callCommentUrl(videoId, this.key, 100);
   }
 
   search_channel(form_recherche: any) {
-    console.log("APPUYER");
+
     this.channel_name = form_recherche.form.value.input_recherche;
     this.key = form_recherche.form.value.api_key;
     this.order = form_recherche.form.value.select_order;
@@ -76,8 +74,7 @@ export class CallApiComponent implements OnInit {
     let options: OrderOptions = {
       "Popularité": 'videoCount',
       "Récent": 'date',
-      "Poce Blo": 'rating',
-      "Titre ordre alphabetique": 'title',
+      "Like": 'rating',
       "Pertinence": 'relevance'
     };
     

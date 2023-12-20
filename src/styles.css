@@ -46,10 +46,11 @@ form {
 }
 
 .nav_app a {
-    font-size: 2em;
+    font-size: 1.5em;
     text-decoration: none;
     color: rgba(255, 255, 255, 0.92);
     padding: 0.5em;
+    margin-left: 20px;
 }
 
 .nav_app a:hover {
@@ -131,6 +132,14 @@ button {
 .div_principale {
     margin: auto;
     width: 60%;
+}
+
+.div_cache{
+    display: none;
+}
+
+.div_voir{
+    display: block;
 }
 
 .div_recherche_input {
