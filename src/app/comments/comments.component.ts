@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { ApiDataService } from '../services/api-data.service';
 import stopWord from '../../assets/stop_words_french.json';
 import emoji from '../../assets/emoji.json';
-import nlp from 'compromise'
 
 
 @Component({
@@ -37,13 +36,6 @@ export class CommentsComponent implements OnInit {
       this.dataComments = value;
     });
     this.sortDataComments();
-  }
-
-  
-  trierVerbesInfinitif(phrase: string) {
-    const doc = nlp(phrase);
-    const verbesInfinitif = doc.verbs().toInfinitive().out('array');
-    return verbesInfinitif.sort();
   }
 
   emojiFilter(mot: String){
@@ -95,10 +87,6 @@ export class CommentsComponent implements OnInit {
     //                     'un', 'pres', 'près', 'car', 'moi', 'viens', "n'est", 'contre', 'pour', 'où', 'joué'];
     console.log(this.stop_word)
 
-    let phrase = "Je mange, tu danses, il écrit, nous courons";
-    let verbesTries = this.trierVerbesInfinitif(phrase);
-
-    console.log(verbesTries);
     // Exclure les mots vides de la liste d'occurrences
     let occurrencesFiltrees = Object.fromEntries(
       Object.entries(occurrences)
