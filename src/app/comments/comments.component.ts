@@ -8,6 +8,9 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ApiDataService } from '../services/api-data.service';
 import stopWord from '../../assets/stop_words_french.json';
+import emoji from '../../assets/emoji.json';
+import nlp from 'compromise'
+
 
 @Component({
   selector: 'app-comments',
@@ -24,6 +27,7 @@ export class CommentsComponent implements OnInit {
   private listComments: String[] = [];
   private wordText: any = "";
   private stop_word: any = stopWord;
+  private emojis: any = emoji;
   constructor(private _httpClient: HttpClient, private apiDataService: ApiDataService, private router: Router) {
     console.log("CommentsComponent");
   }
@@ -33,6 +37,22 @@ export class CommentsComponent implements OnInit {
       this.dataComments = value;
     });
     this.sortDataComments();
+  }
+
+  
+  trierVerbesInfinitif(phrase: string) {
+    const doc = nlp(phrase);
+    const verbesInfinitif = doc.verbs().toInfinitive().out('array');
+    return verbesInfinitif.sort();
+  }
+
+  emojiFilter(mot: String){
+    for (const lettre of mot) {
+      if( this.emojis.some((emoji: { emoji: any; }) => emoji.emoji === lettre)){
+        return false;
+      }
+    }
+    return true;
   }
 
   sortDataComments() {
@@ -67,7 +87,6 @@ export class CommentsComponent implements OnInit {
     });
 
 
-    // Le tableau trié est maintenant stocké dans occurrencesArray
     // const motsVides = ['le', 'et', 'de', 'la', 'un', 'une', 'il', 'elle', 'les', 'des', 'à', 'qui', 'en', '', 'pour', 'pas', 'est', 'que', 'je', 'au', 'a', 'on', "c'est", 'sont', 'tous', 'tout',
     //                     'par', 'du', '.', '-', 'ça', 'nos', "d'une", 'son', 'cette', 'aussi', 'dans', 'mais', 'nous', 'vous', 'ils', 'elles', "m'en", "n'a", 'y', 'très',
     //                     'ses', "j'ai", 'aux', 'se', 'ne', 'ces', 'vos', 'votre', 'quand', 'ont', 'non', 'oui', 'cela', 'ce', 'faut', 'cela', 'etait', 'trop', 'meme', 'même',
@@ -76,18 +95,29 @@ export class CommentsComponent implements OnInit {
     //                     'un', 'pres', 'près', 'car', 'moi', 'viens', "n'est", 'contre', 'pour', 'où', 'joué'];
     console.log(this.stop_word)
 
-    // Exclure les mots vides de la linste d'occurrences
-    const occurrencesFiltrees = Object.fromEntries(
+    let phrase = "Je mange, tu danses, il écrit, nous courons";
+    let verbesTries = this.trierVerbesInfinitif(phrase);
+
+    console.log(verbesTries);
+    // Exclure les mots vides de la liste d'occurrences
+    let occurrencesFiltrees = Object.fromEntries(
       Object.entries(occurrences)
         // .filter(([mot]) => !motsVides.includes( mot.toLowerCase()))
         .filter(([mot]) => !this.stop_word.includes(mot.toLowerCase()) && 
+                           this.emojiFilter(mot) && 
                            mot.length > 2 &&
                            mot.indexOf("'") === -1 &&
-                           mot.indexOf(".") === -1)
+                           mot.indexOf(".") === -1 &&
+                           mot.indexOf("?") === -1 &&
+                           mot.indexOf(".") === -1 && 
+                           mot.indexOf("_") === -1 &&
+                           mot.indexOf("!") === -1
+                           )
     );
     let array_sort = this.sort(occurrencesFiltrees)
     console.log("Filter : ", array_sort);
     this.generateNuage(array_sort);
+
   }
 
   sort(list: any){

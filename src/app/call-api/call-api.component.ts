@@ -1,18 +1,3 @@
-// import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-
-// @Component({
-//   selector: 'app-call-api',
-//   standalone: true,
-//   imports: [CommonModule],
-//   templateUrl: './call-api.component.html',
-//   styleUrl: './call-api.component.css'
-// })
-// export class CallApiComponent {
-
-// }
-
-
 import { Component, Injectable, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'
@@ -80,10 +65,10 @@ export class CallApiComponent implements OnInit {
     
     let key: keyof OrderOptions =  this.order;
     this.order = options[key];
-    this.callChannelUrl2();
+    this.callChannelUrl();
   }
   
-  callChannelUrl(channel_id: any) {
+  callChannelVideosUrl(channel_id: any) {
     let url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=" + channel_id + "&order=" + this.order + "&maxResults=" + this.nb_videos  + "&type=video&key=" + this.key
     console.log(url);
     this._httpClient.get(url)
@@ -95,7 +80,7 @@ export class CallApiComponent implements OnInit {
 
   }
 
-  callChannelUrl2() {
+  callChannelUrl() {
     let url = "https://www.googleapis.com/youtube/v3/search?part=id&q=" + this.channel_name + "&type=channel&key=" + this.key;
     console.log(url);
     console.log(this.channel_name);
@@ -137,8 +122,8 @@ export class CallApiComponent implements OnInit {
 
         let button_image : HTMLButtonElement=<HTMLButtonElement>document.createElement("button");
         button_image.classList.add("button_image");
-        // button_image.addEventListener('click',  this.callChannelUrl(element.id.channelId, 10))
-        button_image.addEventListener('click', (e:Event) => this.callChannelUrl(element.id.channelId));
+        // button_image.addEventListener('click',  this.callChannelVideosUrl(element.id.channelId, 10))
+        button_image.addEventListener('click', (e:Event) => this.callChannelVideosUrl(element.id.channelId));
         let image = document.createElement("img");
         image.src = channel[0].snippet.thumbnails.high.url;
         image.classList.add("img_channel_miniature");
